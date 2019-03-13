@@ -10,24 +10,20 @@ import static java.util.Collections.*;
 
 public class TripService {
 
-    public List<Trip> getTripsByUser(User user) throws UserNotLoggedInException {
-        User loggedUser = getLoggedUser();
+    private TripDAO tripDao;
+
+    public TripService(TripDAO tripDao) {
+        this.tripDao = tripDao;
+    }
+
+    public List<Trip> getTripsByUser(User user, User loggedUser) throws UserNotLoggedInException {
         if (loggedUser == null) {
             throw new UserNotLoggedInException();
         }
 
         if (user.isFriendWith(loggedUser)) {
-            return findTripsByUser(user);
+            return tripDao.findTripsByUser(user);
         }
         return emptyList();
     }
-
-    protected List<Trip> findTripsByUser(User user) {
-        return TripDAO.findTripsByUser(user);
-    }
-
-    protected User getLoggedUser() {
-        return UserSession.getInstance().getLoggedUser();
-    }
-
 }
