@@ -30,6 +30,17 @@ public class TripServiceTest {
         assertThat(tripsByUser, is(empty()));
     }
 
+    @Test
+    void should_() {
+        User loggedUser = new User();
+        TripService tripService = getTestableTripService(loggedUser);
+        User userWithFriends = new User();
+        userWithFriends.addFriend(loggedUser);
+
+        List<Trip> tripsByUser = tripService.getTripsByUser(userWithFriends);
+
+    }
+
     private TripService getTestableTripService(User loggedUser) {
         return new TripService() {
             @Override
